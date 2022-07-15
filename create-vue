@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+#######################################################
+########### Create Vue app with Vite Server ###########
+#######################################################
+
+# create sources folder
+mkdir src
+
+# npm package.json
+echo '{"name":"vue","version":"1.0.0","description":"vue project","main":"index.js","scripts":{"postinstall":"npm pkg set scripts.dev=\"vite --port 3000 & xdg-open http://localhost:3000 & npx tailwindcss -i input.css -o src/style.css --watch\"","dev":"vite --port 3000 & xdg-open http://localhost:3000 & npx tailwindcss -i input.css -o src/style.css --watch"},"author":"John Doe","license":"ISC","devDependencies":{"@vitejs/plugin-vue":"3.0.0","tailwind":"4.0.0","vite":"3.0.0"}}' > package.json
+
+# tailwind base
+echo "@tailwind base; @tailwind components; @tailwind utilities; @tailwind variants;" > input.css
+
+# main app
+echo 'import { createApp } from "/node_modules/vue/dist/vue.esm-bundler"; import App from "./App.vue"; var app = createApp(App); app.mount("#app");' > src/main.js
+echo '<template>Hello World!</template>' > src/App.vue
+
+# web page
+echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Vue App with Vite</title><link rel="stylesheet" href="src/style.css" /></head><body><div id="app"></div><script src="src/main.js" type="module"></script></body></html>' > index.html
+
+# configs
+echo 'module.exports={content:["./index.html","./src/**/*.{vue,js}"],theme:{extend:{}},plugins:[]};' > tailwind.config.js
+echo 'import{defineConfig}from"vite";import vue from"@vitejs/plugin-vue";export default defineConfig({plugins:[vue()]});' > vite.config.js
+
+# next
+echo "Run the following commands:";
+echo "- npm install";
+echo "- npm run dev";
